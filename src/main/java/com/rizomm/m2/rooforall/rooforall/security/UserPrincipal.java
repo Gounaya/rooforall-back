@@ -26,7 +26,7 @@ public class UserPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        // Extract list of roles (ROLES_name)
+        // Extract list of roles and concat "ROLE_" to each role
         this.user.getRoles().forEach(role -> {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName());
             authorities.add(authority);

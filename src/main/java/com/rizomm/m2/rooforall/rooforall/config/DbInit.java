@@ -28,12 +28,6 @@ public class DbInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        /**
-         * flush database
-         */
-        userRepository.deleteAll();
-        roleRepository.deleteAll();
-
         Role adminRole = Role.builder()
                 .name("ADMIN")
                 .build();
@@ -51,11 +45,16 @@ public class DbInit implements CommandLineRunner {
          */
 
         List<Role> roleList = Arrays.asList(adminRole, userRole, advisorRole);
-        roleRepository.saveAll(roleList);
+        roleList.forEach(role -> {
+            if(!roleRepository.findRoleByName(role.getName()).isPresent()) {
+                roleRepository.save(role);
+            }
 
+        } );
 
         User admin = User.builder()
                 .username("admin")
+                .email("admin@gmail.com")
                 .password(passwordEncoder.encode("admin"))
                 .roles(new ArrayList<>(Arrays.asList(adminRole)))
                 .active(1)
@@ -63,6 +62,7 @@ public class DbInit implements CommandLineRunner {
 
         User red = User.builder()
                 .username("red")
+                .email("red@gmail.com")
                 .password(passwordEncoder.encode("red"))
                 .roles(new ArrayList<>(Arrays.asList(userRole)))
                 .active(1)
@@ -73,6 +73,12 @@ public class DbInit implements CommandLineRunner {
         * Save users in BD
         */
         List<User> userList = Arrays.asList(admin, red);
-        userRepository.saveAll(userList);
+
+        userList.forEach(user -> {
+            if(!userRepository.findUserByUsername(user.getUsername()).isPresent()) {
+                userRepository.save(user);
+            }
+
+        } );
     }
 }

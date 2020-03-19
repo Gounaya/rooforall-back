@@ -1,6 +1,5 @@
 package com.rizomm.m2.rooforall.rooforall.dto;
 
-import com.rizomm.m2.rooforall.rooforall.entites.Role;
 import lombok.*;
 
 import java.util.Collection;
@@ -13,6 +12,8 @@ import java.util.Collection;
 public class UserInfo {
 
     private String username;
+
+    private String email;
 
     private int active;
 
