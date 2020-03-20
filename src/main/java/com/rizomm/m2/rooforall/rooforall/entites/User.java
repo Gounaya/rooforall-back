@@ -3,12 +3,8 @@ package com.rizomm.m2.rooforall.rooforall.entites;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -20,6 +16,8 @@ import static javax.persistence.FetchType.EAGER;
 @Builder
 public class User implements Serializable {
 
+    private static final long serialVersionUID = -1121865580712611227L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +28,7 @@ public class User implements Serializable {
 
     private String password;
 
-    private int active;
+    private boolean active;
 
     @ManyToMany(fetch = EAGER)
     @JoinTable(
@@ -40,5 +38,8 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+
+    @ManyToOne
+    private User supervisor;
 
 }

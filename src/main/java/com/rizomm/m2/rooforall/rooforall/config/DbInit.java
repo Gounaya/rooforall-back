@@ -57,15 +57,15 @@ public class DbInit implements CommandLineRunner {
                 .email("admin@gmail.com")
                 .password(passwordEncoder.encode("admin"))
                 .roles(new ArrayList<>(Arrays.asList(adminRole)))
-                .active(1)
+                .active(true)
                 .build();
 
         User red = User.builder()
                 .username("red")
                 .email("red@gmail.com")
                 .password(passwordEncoder.encode("red"))
-                .roles(new ArrayList<>(Arrays.asList(userRole)))
-                .active(1)
+                .roles(new ArrayList<>(Arrays.asList(advisorRole)))
+                .active(true)
                 .build();
 
 

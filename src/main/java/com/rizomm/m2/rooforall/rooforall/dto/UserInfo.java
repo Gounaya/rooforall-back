@@ -15,8 +15,9 @@ public class UserInfo {
 
     private String email;
 
-    private int active;
+    private boolean active;
 
     private Collection<RoleDto> roles;
 
+    private UserInfo supervisor;
 }

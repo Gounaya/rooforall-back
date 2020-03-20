@@ -1,6 +1,9 @@
-package com.rizomm.m2.rooforall.rooforall.security;
+package com.rizomm.m2.rooforall.rooforall.config;
 
 import com.rizomm.m2.rooforall.rooforall.repositories.UserRepository;
+import com.rizomm.m2.rooforall.rooforall.security.JwtAuthenticationFilter;
+import com.rizomm.m2.rooforall.rooforall.security.JwtAuthorizationFilter;
+import com.rizomm.m2.rooforall.rooforall.security.UserPrincipalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,6 +57,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/users/signUp").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/users/getInfo").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/users/listing").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/users/{userId}").hasRole("ADVISOR")
+                .antMatchers(HttpMethod.GET, "/api/users/affectedUsers").hasRole("ADVISOR")
                 .anyRequest().authenticated();
     }
 
