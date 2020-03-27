@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable() // used in form auth
+                .cors().disable() // disable cors
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no need session, because we send a token in each request
                 .and()
                 // add jwt filters (1. authentication, 2. authorization)
