@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -41,5 +43,9 @@ public class User implements Serializable {
 
     @ManyToOne
     private User supervisor;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Record> records = new ArrayList<>();
 
 }

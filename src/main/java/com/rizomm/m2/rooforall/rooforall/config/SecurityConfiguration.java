@@ -60,6 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/users/listing").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/users/{userId}").hasRole("ADVISOR")
                 .antMatchers(HttpMethod.GET, "/api/users/affectedUsers").hasRole("ADVISOR")
+                .antMatchers("/api/records/**").authenticated()
                 .anyRequest().authenticated();
     }
 
