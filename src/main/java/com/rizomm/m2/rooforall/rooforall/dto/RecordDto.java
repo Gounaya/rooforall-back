@@ -1,5 +1,6 @@
 package com.rizomm.m2.rooforall.rooforall.dto;
 
+import com.rizomm.m2.rooforall.rooforall.enums.RecordStatus;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -30,5 +31,7 @@ public class RecordDto {
 
     @NotBlank(message = "town must not be blank")
     private String town;
+
+    private RecordStatus status;
 
 }

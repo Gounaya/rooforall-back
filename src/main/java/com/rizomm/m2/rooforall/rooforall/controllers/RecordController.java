@@ -2,6 +2,7 @@ package com.rizomm.m2.rooforall.rooforall.controllers;
 
 import com.rizomm.m2.rooforall.rooforall.dto.RecordDto;
 import com.rizomm.m2.rooforall.rooforall.dto.UserInfo;
+import com.rizomm.m2.rooforall.rooforall.entites.Record;
 import com.rizomm.m2.rooforall.rooforall.mappers.RecordMapper;
 import com.rizomm.m2.rooforall.rooforall.mappers.UserMapper;
 import com.rizomm.m2.rooforall.rooforall.services.RecordService;
@@ -49,5 +50,10 @@ public class RecordController {
     @DeleteMapping
     public UserInfo deleteAllRecords(Principal principal) {
         return userMapper.toUserInfo(recordService.deleteAllRecords(principal.getName()));
+    }
+
+    @PutMapping("/{recordId}")
+    public Record submitRecord(Principal principal, @PathVariable Long recordId) {
+        return recordService.submitRecord(principal.getName(), recordId);
     }
 }
