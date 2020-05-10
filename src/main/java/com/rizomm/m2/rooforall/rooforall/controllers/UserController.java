@@ -1,5 +1,6 @@
 package com.rizomm.m2.rooforall.rooforall.controllers;
 
+import com.rizomm.m2.rooforall.rooforall.dto.UserEditDto;
 import com.rizomm.m2.rooforall.rooforall.dto.UserInfo;
 import com.rizomm.m2.rooforall.rooforall.dto.UserSignUpDto;
 import com.rizomm.m2.rooforall.rooforall.mappers.UserMapper;
@@ -73,5 +74,10 @@ public class UserController {
     @GetMapping("/affectedUsers")
     public List<UserInfo> getUsersAffectedToAdvisor(Principal principal) {
         return userMapper.toUsersInfo(userService.getUsersAffectedToAdvisor(principal.getName()));
+    }
+
+    @PutMapping
+    public UserInfo editUser(Principal principal, @RequestBody UserEditDto userEditDto) {
+        return userMapper.toUserInfo(userService.editUser(principal.getName(), userEditDto));
     }
 }

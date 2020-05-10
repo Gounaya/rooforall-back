@@ -1,5 +1,6 @@
 package com.rizomm.m2.rooforall.rooforall.security;
 
+import com.rizomm.m2.rooforall.rooforall.dto.UserEditDto;
 import com.rizomm.m2.rooforall.rooforall.entites.Role;
 import com.rizomm.m2.rooforall.rooforall.entites.User;
 import com.rizomm.m2.rooforall.rooforall.repositories.RoleRepository;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Service
 public class UserPrincipalDetailService implements UserDetailsService {
@@ -106,5 +108,27 @@ public class UserPrincipalDetailService implements UserDetailsService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "There is no account with that advisor username: " + advisorName));
 
         return userRepository.findUsersBySupervisor(advisor);
+    }
+
+    public User editUser(String username, UserEditDto userEditDto) {
+        User userByUsername = userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No user found with username " + username));
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if(!isEmpty(userEditDto.getUsername())) {
+            if (userRepository.findUserByUsername(userEditDto.getUsername()).isPresent()) {
+                throw new ResponseStatusException(BAD_REQUEST,"There is an account with that username: " + userEditDto.getUsername());
+            }
+
+            userByUsername.setUsername(userEditDto.getUsername());
+        }
+
+        if(!isEmpty(userEditDto.getPassword())) {
+            userByUsername.setPassword(passwordEncoder.encode(userEditDto.getPassword()));
+        }
+
+        return userRepository.save(userByUsername);
+
     }
 }
