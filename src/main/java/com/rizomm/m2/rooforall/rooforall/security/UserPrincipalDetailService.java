@@ -128,6 +128,10 @@ public class UserPrincipalDetailService implements UserDetailsService {
             userByUsername.setPassword(passwordEncoder.encode(userEditDto.getPassword()));
         }
 
+        if(!isEmpty(userEditDto.getPicture())) {
+            userByUsername.setPicture(userEditDto.getPicture());
+        }
+
         return userRepository.save(userByUsername);
 
     }

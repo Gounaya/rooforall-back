@@ -13,4 +13,6 @@ public class UserEditDto {
     private String username;
 
     private String password;
+
+    private byte[] picture;
 }
