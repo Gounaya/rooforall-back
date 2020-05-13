@@ -30,6 +30,9 @@ public class User implements Serializable {
 
     private String password;
 
+    @Lob
+    private byte[] picture;
+
     private boolean active;
 
     @ManyToMany(fetch = EAGER)

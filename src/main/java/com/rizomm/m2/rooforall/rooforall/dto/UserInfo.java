@@ -18,6 +18,8 @@ public class UserInfo {
 
     private boolean active;
 
+    private byte[] data;
+
     private Collection<RoleDto> roles;
 
     private UserInfo supervisor;
