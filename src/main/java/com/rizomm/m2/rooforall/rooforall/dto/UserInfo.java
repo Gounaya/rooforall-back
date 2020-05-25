@@ -18,7 +18,7 @@ public class UserInfo {
 
     private boolean active;
 
-    private byte[] data;
+    private byte[] picture;
 
     private Collection<RoleDto> roles;
 
