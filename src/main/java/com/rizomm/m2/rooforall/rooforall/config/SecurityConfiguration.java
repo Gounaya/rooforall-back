@@ -3,7 +3,7 @@ package com.rizomm.m2.rooforall.rooforall.config;
 import com.rizomm.m2.rooforall.rooforall.repositories.UserRepository;
 import com.rizomm.m2.rooforall.rooforall.security.JwtAuthenticationFilter;
 import com.rizomm.m2.rooforall.rooforall.security.JwtAuthorizationFilter;
-import com.rizomm.m2.rooforall.rooforall.security.UserPrincipalDetailService;
+import com.rizomm.m2.rooforall.rooforall.services.UserPrincipalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

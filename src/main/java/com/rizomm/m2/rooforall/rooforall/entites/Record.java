@@ -8,6 +8,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +39,16 @@ public class Record implements Serializable {
     private Long habitationSurface;
 
     private String town;
+
+    @ManyToMany
+    List<House> houseList = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "records_houses",
+            joinColumns = @JoinColumn(name = "record_id"),
+            inverseJoinColumns = @JoinColumn(name = "house_id"))
+    Collection<House> linkedHouses;
 
     @CreatedDate
     private LocalDate creationDate;

@@ -1,10 +1,11 @@
-package com.rizomm.m2.rooforall.rooforall.security;
+package com.rizomm.m2.rooforall.rooforall.services;
 
 import com.rizomm.m2.rooforall.rooforall.dto.UserEditDto;
 import com.rizomm.m2.rooforall.rooforall.entites.Role;
 import com.rizomm.m2.rooforall.rooforall.entites.User;
 import com.rizomm.m2.rooforall.rooforall.repositories.RoleRepository;
 import com.rizomm.m2.rooforall.rooforall.repositories.UserRepository;
+import com.rizomm.m2.rooforall.rooforall.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

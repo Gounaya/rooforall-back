@@ -4,7 +4,7 @@ import com.rizomm.m2.rooforall.rooforall.dto.UserEditDto;
 import com.rizomm.m2.rooforall.rooforall.dto.UserInfo;
 import com.rizomm.m2.rooforall.rooforall.dto.UserSignUpDto;
 import com.rizomm.m2.rooforall.rooforall.mappers.UserMapper;
-import com.rizomm.m2.rooforall.rooforall.security.UserPrincipalDetailService;
+import com.rizomm.m2.rooforall.rooforall.services.UserPrincipalDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
