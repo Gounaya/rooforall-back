@@ -1,7 +1,9 @@
 package com.rizomm.m2.rooforall.rooforall.config;
 
+import com.rizomm.m2.rooforall.rooforall.entites.Bucket;
 import com.rizomm.m2.rooforall.rooforall.entites.Role;
 import com.rizomm.m2.rooforall.rooforall.entites.User;
+import com.rizomm.m2.rooforall.rooforall.repositories.BucketRepository;
 import com.rizomm.m2.rooforall.rooforall.repositories.RoleRepository;
 import com.rizomm.m2.rooforall.rooforall.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class DbInit implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BucketRepository bucketRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -80,5 +85,11 @@ public class DbInit implements CommandLineRunner {
             }
 
         } );
+
+        Bucket userBucket = Bucket.builder().bucketName("rfa-users").build();
+        if(!bucketRepository.findByBucketName(userBucket.getBucketName()).isPresent()) {
+            bucketRepository.save(userBucket);
+        }
+
     }
 }

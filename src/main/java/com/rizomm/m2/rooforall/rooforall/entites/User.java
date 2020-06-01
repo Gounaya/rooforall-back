@@ -3,6 +3,7 @@ package com.rizomm.m2.rooforall.rooforall.entites;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,12 +27,12 @@ public class User implements Serializable {
 
     private String username;
 
+    @Email
     private String email;
 
     private String password;
 
-    @Lob
-    private byte[] picture;
+    private String pictureURL;
 
     private boolean active;
 

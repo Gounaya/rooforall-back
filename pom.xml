@@ -40,6 +40,13 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 			</dependency>
 
+		<!-- Minio dependency -->
+		<dependency>
+			<groupId>io.minio</groupId>
+			<artifactId>minio</artifactId>
+			<version>6.0.11</version>
+		</dependency>
+
 		<!-- mysql -->
 		<dependency>
 			<groupId>mysql</groupId>

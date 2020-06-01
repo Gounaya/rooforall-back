@@ -4,11 +4,13 @@ import com.rizomm.m2.rooforall.rooforall.dto.UserEditDto;
 import com.rizomm.m2.rooforall.rooforall.dto.UserInfo;
 import com.rizomm.m2.rooforall.rooforall.dto.UserSignUpDto;
 import com.rizomm.m2.rooforall.rooforall.mappers.UserMapper;
+import com.rizomm.m2.rooforall.rooforall.services.MinioService;
 import com.rizomm.m2.rooforall.rooforall.services.UserPrincipalDetailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -25,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private MinioService minioService;
 
     @PostMapping("/signUp")
     public UserInfo signUp(@RequestBody @Valid UserSignUpDto signUpDto) {
@@ -79,5 +84,10 @@ public class UserController {
     @PutMapping
     public UserInfo editUser(Principal principal, @RequestBody UserEditDto userEditDto) {
         return userMapper.toUserInfo(userService.editUser(principal.getName(), userEditDto));
+    }
+
+    @PostMapping("/uploadFile")
+    public void uploadFile(@RequestParam("file") MultipartFile file, Principal principal) throws Exception {
+        minioService.addImageToProfile(file, principal.getName());
     }
 }
