@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @Setter
@@ -40,15 +44,16 @@ public class Record implements Serializable {
 
     private String town;
 
-    @ManyToMany
+    @OneToMany(fetch = LAZY, cascade = {MERGE, PERSIST}) // TODO: remove and replace with ManyToMany (make changes in House entity)
+    @JoinColumn(name = "record_id")
     List<House> houseList = new ArrayList<>();
 
-    @ManyToMany
+/*    @ManyToMany
     @JoinTable(
             name = "records_houses",
             joinColumns = @JoinColumn(name = "record_id"),
             inverseJoinColumns = @JoinColumn(name = "house_id"))
-    Collection<House> linkedHouses;
+    Collection<House> linkedHouses;*/
 
     @CreatedDate
     private LocalDate creationDate;

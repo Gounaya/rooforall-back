@@ -1,10 +1,12 @@
 package com.rizomm.m2.rooforall.rooforall.dto;
 
+import com.rizomm.m2.rooforall.rooforall.entites.House;
 import com.rizomm.m2.rooforall.rooforall.enums.RecordStatus;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,5 +35,7 @@ public class RecordDto {
     private String town;
 
     private RecordStatus status;
+
+    private List<House> houseList;
 
 }

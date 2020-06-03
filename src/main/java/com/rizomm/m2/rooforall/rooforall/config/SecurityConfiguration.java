@@ -62,6 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/users/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/users/affectedUsers").hasRole("ADVISOR")
                 .antMatchers("/api/records/**").authenticated()
+                .antMatchers("/api/houses/**").authenticated() // TODO: only for advisor
                 .anyRequest().authenticated();
     }
 

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,5 +33,7 @@ public class HouseDto {
 
     @NotBlank(message = "address must not be blank")
     private String address;
+
+    private List<FileDto> images;
 
 }

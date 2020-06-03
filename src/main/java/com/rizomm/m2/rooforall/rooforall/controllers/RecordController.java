@@ -56,4 +56,9 @@ public class RecordController {
     public Record submitRecord(Principal principal, @PathVariable Long recordId) {
         return recordService.submitRecord(principal.getName(), recordId);
     }
+
+    @PostMapping("/affect")
+    public RecordDto affectHouseToRecord(@RequestParam Long recordId, @RequestParam Long houseId) {
+        return recordMapper.toDto(recordService.affectHouseToRecord(recordId, houseId));
+    }
 }

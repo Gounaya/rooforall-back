@@ -1,8 +1,10 @@
 package com.rizomm.m2.rooforall.rooforall.services;
 
+import com.rizomm.m2.rooforall.rooforall.entites.File;
+import com.rizomm.m2.rooforall.rooforall.entites.House;
 import com.rizomm.m2.rooforall.rooforall.entites.User;
-import com.rizomm.m2.rooforall.rooforall.repositories.BucketRepository;
 import com.rizomm.m2.rooforall.rooforall.repositories.FileRepository;
+import com.rizomm.m2.rooforall.rooforall.repositories.HouseRepository;
 import com.rizomm.m2.rooforall.rooforall.repositories.UserRepository;
 import io.minio.MinioClient;
 import io.minio.errors.*;
@@ -15,6 +17,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -22,13 +26,13 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class MinioService {
 
     @Autowired
-    private BucketRepository bucketRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private FileRepository fileRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private HouseRepository houseRepository;
 
     private MinioClient minioClient;
 
@@ -45,10 +49,63 @@ public class MinioService {
 
         if (!minioClient.bucketExists(bucketUser)) {
             minioClient.makeBucket(bucketUser);
+            //minioClient.setBucketPolicy(bucketUser, "DOWNLOAD"); TODO: find wright method to allow download
         }
         minioClient.putObject(bucketUser, file.getOriginalFilename(), file.getInputStream(), file.getSize(), file.getContentType());
         existingUser.setPictureURL("https://play.min.io/" +bucketUser + "/" +file.getOriginalFilename());
         userRepository.save(existingUser);
+    }
+
+    public void addImagesToHouse(MultipartFile[] files, Long houseId) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InvalidResponseException, InternalException, NoResponseException, InvalidBucketNameException, XmlPullParserException, ErrorResponseException, RegionConflictException, InvalidArgumentException {
+        House existingHouse = houseRepository.findById(houseId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No house found for houseId= "+houseId));
+
+        if (!minioClient.bucketExists(bucketUser)) {
+            minioClient.makeBucket(bucketUser);
+        }
+
+        for (MultipartFile file : files) {
+            minioClient.putObject(bucketUser, file.getOriginalFilename(), file.getInputStream(), file.getSize(), file.getContentType());
+            existingHouse.getImages().add(File.builder()
+                    .fileName(file.getOriginalFilename())
+                    .url("https://play.min.io/" +bucketUser + "/" +file.getOriginalFilename())
+                    .build());
+        }
+
+        houseRepository.save(existingHouse);
+    }
+
+    public void deleteFiles(List<Long> fileIds, Long houseId) throws Exception {
+        House existingHouse = houseRepository.findById(houseId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No house found for houseId= "+houseId));
+        List<File> files = fileRepository.findAll();
+        fileIds.forEach(fileId -> {
+            Optional<File> file = fileRepository.findById(fileId);
+            if (file.isPresent()) {
+                if (files.contains(file.get())) {
+                    try {
+                        minioClient.removeObject(bucketUser, file.get().getFileName());
+                        fileRepository.delete(file.get());
+
+                    } catch (InvalidBucketNameException | InvalidResponseException | NoSuchAlgorithmException | InsufficientDataException | IOException | InvalidKeyException | NoResponseException | XmlPullParserException | ErrorResponseException | InternalException | InvalidArgumentException e) {
+                        e.printStackTrace();
+                    }
+                    fileRepository.delete(file.get());
+                } else {
+                    try {
+                        throw new Exception("You have no file in your buckets with that id");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                try {
+                    throw new Exception("No file found.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /*public void createBucket(String bucketName, String email) throws Exception {

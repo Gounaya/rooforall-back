@@ -22,4 +22,6 @@ public class File {
     private Long id;
 
     private String fileName;
+
+    private String url;
 }

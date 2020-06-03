@@ -2,13 +2,9 @@ package com.rizomm.m2.rooforall.rooforall.services;
 
 import com.rizomm.m2.rooforall.rooforall.entites.House;
 import com.rizomm.m2.rooforall.rooforall.repositories.HouseRepository;
-import com.rizomm.m2.rooforall.rooforall.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 
 import java.util.List;
 
@@ -42,4 +38,10 @@ public class HouseService {
         return houseRepository.findAll();
     }
 
+    public void deleteHouseById(Long houseId) {
+        House existingHouse = houseRepository.findById(houseId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No record found for house id " + houseId));
+
+        houseRepository.delete(existingHouse);
+    }
 }

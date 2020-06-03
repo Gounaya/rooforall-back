@@ -34,7 +34,8 @@ public class House implements Serializable {
 
     private String address;
 
-    @ManyToMany(mappedBy = "linkedHouses")
-    List<Record> recordList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "house_id")
+    List<File> images = new ArrayList<>();
 
 }

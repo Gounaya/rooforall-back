@@ -1,9 +1,11 @@
 package com.rizomm.m2.rooforall.rooforall.services;
 
 import com.rizomm.m2.rooforall.rooforall.dto.UserInfo;
+import com.rizomm.m2.rooforall.rooforall.entites.House;
 import com.rizomm.m2.rooforall.rooforall.entites.Record;
 import com.rizomm.m2.rooforall.rooforall.entites.User;
 import com.rizomm.m2.rooforall.rooforall.enums.RecordStatus;
+import com.rizomm.m2.rooforall.rooforall.repositories.HouseRepository;
 import com.rizomm.m2.rooforall.rooforall.repositories.RecordRepository;
 import com.rizomm.m2.rooforall.rooforall.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class RecordService {
 
     @Autowired
     private RecordRepository recordRepository;
+
+    @Autowired
+    private HouseRepository houseRepository;
 
     public User createRecord(String username, Record record) {
         User userByUsername = userRepository.findUserByUsername(username)
@@ -75,5 +80,16 @@ public class RecordService {
 
         recordById.setStatus(IN_PROGRESS);
         return recordRepository.save(recordById);
+    }
+
+    public Record affectHouseToRecord(Long recordId, Long houseId) {
+        Record existingRecord = recordRepository.findById(recordId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No record found for record id " + recordId));
+
+        House existingHouse = houseRepository.findById(houseId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No house found for house id " + houseId));
+
+        existingRecord.getHouseList().add(existingHouse);
+        return recordRepository.save(existingRecord);
     }
 }
