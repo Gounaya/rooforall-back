@@ -16,4 +16,5 @@ public class UserLoginDto {
 
     @NotBlank(message = "password must not be blank")
     private String password;
+    
 }

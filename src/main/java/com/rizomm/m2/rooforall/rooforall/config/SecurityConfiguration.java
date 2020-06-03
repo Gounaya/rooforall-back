@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -40,9 +41,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // used in form auth
-                .cors().disable() // disable cors
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no need session, because we send a token in each request
+                .csrf()
+                .disable().
+                cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and().
+                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no need session, because we send a token in each request
                 .and()
                 // add jwt filters (1. authentication, 2. authorization)
                 .addFilter(new JwtAuthenticationFilter(authenticationManager())) // creating token

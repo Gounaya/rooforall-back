@@ -12,6 +12,7 @@
 	<artifactId>rooforall</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>rooforall</name>
+	<packaging>jar</packaging>
 	<description> Updated 7 days ago</description>
 
 	<properties>
