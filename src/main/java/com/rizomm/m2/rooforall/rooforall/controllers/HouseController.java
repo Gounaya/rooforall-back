@@ -58,6 +58,11 @@ public class HouseController {
         minioService.addImagesToHouse(files, houseId);
     }
 
+    @PostMapping("/mainImage/{houseId}")
+    public void uploadMainImage(@RequestParam("file") MultipartFile file, @PathVariable Long houseId) throws Exception {
+        minioService.addMainImage(file, houseId);
+    }
+
     @DeleteMapping("/deleteFiles/{houseId}")
     public void deleteFiles(@RequestParam List<Long> fileIds, @PathVariable Long houseId) throws Exception {
         minioService.deleteFiles(fileIds, houseId);

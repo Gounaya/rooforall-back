@@ -108,6 +108,20 @@ public class MinioService {
         });
     }
 
+    public void addMainImage(MultipartFile file, Long houseId) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InvalidResponseException, InternalException, NoResponseException, InvalidBucketNameException, XmlPullParserException, ErrorResponseException, RegionConflictException, InvalidArgumentException {
+        if (!minioClient.bucketExists(bucketUser)) {
+            minioClient.makeBucket(bucketUser);
+            //minioClient.setBucketPolicy(bucketUser, "DOWNLOAD"); TODO: find wright method to allow download
+        }
+
+        House existingHouse = houseRepository.findById(houseId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No record found for house id " + houseId));
+
+        minioClient.putObject(bucketUser, file.getOriginalFilename(), file.getInputStream(), file.getSize(), file.getContentType());
+        existingHouse.setMainImage("https://play.min.io/" +bucketUser + "/" +file.getOriginalFilename());
+        houseRepository.save(existingHouse);
+    }
+
     /*public void createBucket(String bucketName, String email) throws Exception {
         Optional<User> user = userRepository.findByEmail(email);
         if (!user.isPresent()) {

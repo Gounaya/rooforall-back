@@ -36,4 +36,6 @@ public class HouseDto {
 
     private List<FileDto> images;
 
+    private String mainImage;
+
 }
